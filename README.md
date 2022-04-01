@@ -47,7 +47,7 @@ git fetch --all
 git pull --all
 ```
 
-Each branch is the start of the each step in the workshop.
+Each branch is the end of the each step in the workshop.
 
 ```sh
 git checkout step1
