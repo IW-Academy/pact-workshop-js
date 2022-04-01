@@ -37,6 +37,22 @@ If running this as a team workshop format, you may want to take a look through t
 
 [Node + NPM](https://nodejs.org/en/)
 
+## Getting Started
+
+Pull down all the branches in the remote repo:
+
+```sh
+git branch -r | grep -v '\->' | sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
+git fetch --all
+git pull --all
+```
+
+Each branch is the start of the each step in the workshop.
+
+```sh
+git checkout step1
+```
+
 ## Scenario
 
 There are two components in scope for our workshop.
