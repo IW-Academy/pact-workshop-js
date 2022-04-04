@@ -172,24 +172,9 @@ describe("API Pact test", () => {
         });
 
         test("no auth token", async () => {
-
-            // set up Pact interactions
-            await provider.addInteraction({
-                state: 'product with ID 10 exists',
-                uponReceiving: 'get product by ID 10 with no auth token',
-                withRequest: {
-                    method: 'GET',
-                    path: '/product/10'
-                },
-                willRespondWith: {
-                    status: 401
-                },
-            });
-
-            const api = new API(provider.mockService.baseUrl);
-
-            // make request to Pact mock server
-            await expect(api.getProduct("10")).rejects.toThrow("Request failed with status code 401");
+            // GIVEN products exist
+            // WHEN my request does not have a bearer token
+            // THEN I receive a 401 response
         });
     });
 });
