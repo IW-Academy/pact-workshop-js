@@ -1,4 +1,4 @@
-# Pact JS workshop
+# Post Academy Days: Pact JS workshop
 
 ## Introduction
 
