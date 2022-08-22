@@ -641,234 +641,26 @@ We're now going to add 2 more scenarios for the contract
 
 Let's write a test for these scenarios, and then generate an updated pact file.
 
-In `consumer/src/api.pact.spec.js`:
-
-```javascript
-// within the 'getting all products' group
-test("no products exists", async () => {
-
-  // set up Pact interactions
-  await provider.addInteraction({
-    state: 'no products exist',
-    uponReceiving: 'get all products',
-    withRequest: {
-      method: 'GET',
-      path: '/products'
-    },
-    willRespondWith: {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: []
-    },
-  });
-
-  const api = new API(provider.mockService.baseUrl);
-
-  // make request to Pact mock server
-  const product = await api.getAllProducts();
-
-  expect(product).toStrictEqual([]);
-});
-
-// within the 'getting one product' group
-test("product does not exist", async () => {
-
-  // set up Pact interactions
-  await provider.addInteraction({
-    state: 'product with ID 11 does not exist',
-    uponReceiving: 'get product with ID 11',
-    withRequest: {
-      method: 'GET',
-      path: '/product/11'
-    },
-    willRespondWith: {
-      status: 404
-    },
-  });
-
-  const api = new API(provider.mockService.baseUrl);
-
-  // make request to Pact mock server
-  await expect(api.getProduct("11")).rejects.toThrow("Request failed with status code 404");
-});
-```
-
-Notice that our new tests look almost identical to our previous tests, and only differ on the expectations of the _response_ - the HTTP request expectations are exactly the same.
+Update `consumer/src/api.pact.spec.js` to add this new test
 
 ```console
 ❯ npm run test:pact --prefix consumer
-
-PASS src/api.pact.spec.js
-  API Pact test
-    getting all products
-      ✓ products exists (24ms)
-      ✓ no products exists (13ms)
-    getting one product
-      ✓ ID 10 exists (14ms)
-      ✓ product does not exist (14ms)
-
-Test Suites: 1 passed, 1 total
-Tests:       4 passed, 4 total
-Snapshots:   0 total
-Time:        2.437s, estimated 3s
-Ran all test suites matching /pact.spec.js/i.
-
 ```
+
+##**INTERACTIVE - write the test!**
 
 What does our provider have to say about this new test. Again, copy the updated pact file into the provider's pact directory and run the command:
 
 ```console
 ❯ npm run test:pact --prefix provider
-
-[2020-01-14T11:11:51.390Z]  INFO: pact@9.5.0/3894: Verifying provider
-[2020-01-14T11:11:51.394Z]  INFO: pact-node@10.2.2/3894: Verifying Pacts.
-[2020-01-14T11:11:51.395Z]  INFO: pact-node@10.2.2/3894: Verifying Pact Files
-[2020-01-14T11:11:51.941Z]  WARN: pact@9.5.0/3894: No state handler found for "products exist", ignorning
-[2020-01-14T11:11:51.972Z]  WARN: pact@9.5.0/3894: No state handler found for "no products exist", ignorning
-[2020-01-14T11:11:51.982Z]  WARN: pact@9.5.0/3894: No state handler found for "product with ID 10 exists", ignorning
-[2020-01-14T11:11:51.989Z]  WARN: pact@9.5.0/3894: No state handler found for "product with ID 11 does not exist", ignorning
- FAIL  product/product.pact.test.js
-  Pact Verification
-    ✕ validates the expectations of ProductService (669ms)
-
-  ● Pact Verification › validates the expectations of ProductService
-
-    WARN: Only the first item will be used to match the items in the array at $['body']
-
-    INFO: Reading pact at pact-workshop-js/provider/pacts/frontendwebsite-productservice.json
-
-    Verifying a pact between FrontendWebsite and ProductService
-
-      Given products exist
-        get all products
-          with GET /products
-            returns a response which
-
-              has status code 200
-
-              has a matching body
-
-              includes headers
-
-                "Content-Type" which equals "application/json; charset=utf-8"
-
-      Given no products exist
-
-        get all products
-
-          with GET /products
-
-            returns a response which
-
-              has status code 200
-
-              has a matching body (FAILED - 1)
-
-              includes headers
-
-                "Content-Type" which equals "application/json; charset=utf-8"
-
-      Given product with ID 10 exists
-
-        get product with ID 10
-
-          with GET /product/10
-
-            returns a response which
-
-              has status code 200
-
-              has a matching body
-
-              includes headers
-
-                "Content-Type" which equals "application/json; charset=utf-8"
-
-      Given product with ID 11 does not exist
-
-        get product with ID 11
-
-          with GET /product/11
-
-            returns a response which
-
-              has status code 404 (FAILED - 2)
-
-
-    Failures:
-
-      1) Verifying a pact between FrontendWebsite and ProductService Given no products exist get all products with GET /products returns a response which has a matching body
-         Failure/Error: expect(response_body).to match_term expected_response_body, diff_options, example
-
-           Actual: [{"id":"09","type":"CREDIT_CARD","name":"Gem Visa","version":"v1"},{"id":"10","type":"CREDIT_CARD","name":"28 Degrees","version":"v1"},{"id":"11","type":"PERSONAL_LOAN","name":"MyFlexiPay","version":"v2"}]
-
-           Diff
-           --------------------------------------
-           Key: - is expected
-                + is actual
-           Matching keys and values are not shown
-
-           -[,
-           -
-           +[
-           +  {
-           +    "id": "09",
-           +    "type": "CREDIT_CARD",
-           +    "name": "Gem Visa",
-           +    "version": "v1"
-           +  },
-           +  {
-           +    "id": "10",
-           +    "type": "CREDIT_CARD",
-           +    "name": "28 Degrees",
-           +    "version": "v1"
-           +  },
-           +  {
-           +    "id": "11",
-           +    "type": "PERSONAL_LOAN",
-           +    "name": "MyFlexiPay",
-           +    "version": "v2"
-           +  },
-            ]
-
-           Description of differences
-           --------------------------------------
-           * Actual array is too long and should not contain a Hash at $[0]
-           * Actual array is too long and should not contain a Hash at $[1]
-           * Actual array is too long and should not contain a Hash at $[2]
-
-      2) Verifying a pact between FrontendWebsite and ProductService Given product with ID 11 does not exist get product with ID 11 with GET /product/11 returns a response which has status code 404
-         Failure/Error: expect(response_status).to eql expected_response_status
-
-           expected: 404
-                got: 200
-
-           (compared using eql?)
-
-
-    4 interactions, 2 failures
-
-    Failed interactions:
-
-    * Get all products given no products exist
-
-    * Get product with id 11 given product with ID 11 does not exist
-
-      at ChildProcess.<anonymous> (node_modules/@pact-foundation/pact-node/src/verifier.ts:194:58)
-
-Test Suites: 1 failed, 1 total
-Tests:       1 failed, 1 total
-Snapshots:   0 total
-Time:        2.044s
-Ran all test suites.
-[2020-01-14T11:11:52.052Z]  WARN: pact-node@10.2.2/3894: Pact exited with code 1.
-npm ERR! Test failed.  See above for more details.
 ```
 
-We expected this failure, because the product we are requesing does in fact exist! What we want to test for, is what happens if there is a different *state* on the Provider. This is what is referred to as "Provider states", and how Pact gets around test ordering and related issues.
+We expected this failure, because the product we are requesting does in fact exist! What we want to test for, is what happens if there is a different *state* on the Provider. This is what is referred to as "Provider states", and how Pact gets around test ordering and related issues.
 
 We could resolve this by updating our consumer test to use a known non-existent product, but it's worth understanding how Provider states work more generally.
+
+### View the solution
+
+```git checkout step6_5```
 
 *Move on to [step 7](https://github.com/pact-foundation/pact-workshop-js/tree/step7#step-7---adding-the-missing-states)*
