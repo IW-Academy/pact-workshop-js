@@ -47,6 +47,7 @@ Pull down all the branches in the remote repo:
 git branch -r | grep -v '\->' | sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
 git fetch --all
 git pull --all
+npm install
 ```
 
 Each branch is the end of the each step in the workshop.
