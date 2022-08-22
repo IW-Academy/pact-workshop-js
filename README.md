@@ -22,6 +22,7 @@ This workshop should take from 1 to 2 hours, depending on how deep you want to g
 1. Fix the provider to support the `401` case
 1. Implement a broker workflow for integration with CI/CD
 1. Implement a managed pactflow workflow for integration with CI/CD
+
 _NOTE: Each step is tied to, and must be run within, a git branch, allowing you to progress through each stage incrementally. For example, to move to step 2 run the following: `git checkout step2`_
 
 ## Learning objectives
