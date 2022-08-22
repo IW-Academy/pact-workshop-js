@@ -632,4 +632,8 @@ Ran all test suites.
 
 Yay - green ✅!
 
-Move on to [step 6](https://github.com/pact-foundation/pact-workshop-js/tree/step6#step-6---consumer-updates-contract-for-missing-products)
+## View solution
+```git checkout step5_5```
+
+##Move on to Step 6
+```git checkout step6```
