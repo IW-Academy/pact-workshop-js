@@ -97,5 +97,6 @@ We can run the client with `npm start --prefix consumer` - it should fail with t
 
 ![Failed step1 page](diagrams/workshop_step1_failed_page.png)
 
-*Move on to Step 2*
+### Move on to Step 2
+
 ```git checkout step2```
