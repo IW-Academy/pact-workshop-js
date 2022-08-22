@@ -10,8 +10,6 @@ This workshop should take from 1 to 2 hours, depending on how deep you want to g
 
 **Workshop outline**:
 
-**Workshop outline**:
-
 1. Create our consumer before the Provider API even exists
 1. Write a unit test for our consumer **INTERACTIVE** <-- we are here
 1. Write a Pact test for our consumer **INTERACTIVE**
